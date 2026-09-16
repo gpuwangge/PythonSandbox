@@ -4,7 +4,7 @@
 https://www.python.org/downloads/  
 (Python 3.14.7)  
 
-# Flask Test
+# FlaskTest
 This project is an implementation of the tutorial at   
 https://tutorial.helloflask.com/  
 
