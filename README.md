@@ -5,7 +5,10 @@ https://www.python.org/downloads/
 (Python 3.14.7)  
 
 # Flask Test
-<img src="https://github.com/gpuwangge/LuminError/blob/main/images/SimpleRayPipelineDragon1.png" alt="alt text">  
+This project is an implementation of the tutorial at   
+https://tutorial.helloflask.com/  
+
+<img src="https://github.com/gpuwangge/PythonSandbox/blob/main/images/FlaskForm.png" alt="alt text" width="227" height="256">  
 
 ## Run Flask (formsample)
 VSCode terminal:
