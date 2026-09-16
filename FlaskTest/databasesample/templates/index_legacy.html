@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{ user.name }}'s Watchlist</title>
+    <!--浏览器标签页、书签和快捷方式中显示的小图标-->
+    <!--Ctrl+Shift+R to Refresh-->
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}"> 
+    <!--CSS 样式文件，用于定义页面外观与布局-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css"> 
+</head>
+<body>
+    <!--alt 提供图片无法加载时的替代文字，也有助于无障碍阅读-->
+    <!--class="avatar" 用于在 CSS 中定义头像的尺寸、圆角等样式-->
+    <!--src 通过 Flask 的 url_for() 生成 static/images/avatar.png 的正确访问路径-->
+    <img alt="Avatar" class="avatar" src="{{ url_for('static', filename='images/avatar.png') }}"> 
+    {{ user.name }}'s Watchlist
+    <!--<h2>{{ name }}'s Watchlist</h2>-->
+    {# 使用 length 过滤器获取 movies 变量的长度 #}
+    <p>{{ movies|length }} Titles</p>
+    <!--ul = Unordered List表示无序列表，内部通常包含多个 <li> 电影条目-->
+    <!--li = List Item，每一项列表内容-->
+    <!--class="movie-list" 用于在 CSS 中统一控制电影列表的布局、间距、项目符号和响应式样式-->
+    <ul class="movie-list">
+        {% for movie in movies %}  {# 迭代 movies 变量 #}
+        <li>{{ movie.title }} - {{ movie.year }}</li>  {# 等同于 movie['title'] #}
+        {% endfor %}  {# 使用 endfor 标签结束 for 语句 #}
+    </ul>
+    <!--行走的龙猫 GIF 动画，totoro 类用于 CSS 样式控制，图片文件位于 static/images/totoro.gif-->
+    <img alt="Walking Totoro" class="totoro" src="{{ url_for('static', filename='images/totoro.gif') }}"> 
+    <footer>
+        <small>&copy; 2026 <a href="http://helloflask.com/book/3">HelloFlask</a></small>
+    </footer>
+</body>
+</html>

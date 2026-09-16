@@ -1,11 +1,14 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy  # 导入扩展类
+
 from sqlalchemy.orm import DeclarativeBase #实例化扩展类时，除了程序实例，需要额外传入一个继承自 DeclarativeBase 的子类作为 model_class 参数的值。
-from pathlib import Path
-from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
-import click
+
+from sqlalchemy import String
 from sqlalchemy import select
+
+from pathlib import Path
+import click
 
 app = Flask(__name__)
 
@@ -77,13 +80,32 @@ def forge():
     db.session.commit()
     click.echo('Done.')
 
-#http://127.0.0.1:5000/
-#@app.route("/")
-#def index():
-#    return render_template('index.html', name=name, movies=movies)
+#模板优化
+#使用 app.context_processor 装饰器注册一个模板上下文处理函数
+#这个函数返回的变量（以字典键值对的形式）将会统一注入到每一个模板的上下文环境中，因此可以直接在模板中使用。
+#后面我们创建的任意一个模板，都可以在模板中直接使用 user 变量。
+@app.context_processor
+def inject_user():  # 函数名可以随意修改
+    user = db.session.execute(select(User)).scalar()
+    return dict(user=user)  # 需要返回字典，等同于 return {'user': user}
 
+#主页视图函数
+#http://127.0.0.1:5000/
 @app.route('/')
 def index():
-    user = db.session.execute(select(User)).scalar()  # 读取用户记录
+    #user = db.session.execute(select(User)).scalar()  # 读取用户记录
     movies = db.session.execute(select(Movie)).scalars().all()  # 读取所有电影记录
-    return render_template('index.html', user=user, movies=movies)
+    return render_template('index.html', movies=movies)
+
+#404 错误处理函数
+#http://127.0.0.1:5000/foo
+@app.errorhandler(404)  # 传入要处理的错误代码
+def page_not_found(error):  # 接受异常对象作为参数
+    #user = db.session.execute(select(User)).scalar()
+    return render_template('404.html'), 404  # 返回模板和状态码
+
+
+
+
+
+
